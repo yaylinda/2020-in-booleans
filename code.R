@@ -1,5 +1,6 @@
 library(ggplot2)
 library(zoo)
+library(lubridate)
 library(reshape2)
 
 setwd("~/Developer/2020-in-booleans")
@@ -133,6 +134,7 @@ melt_and_plot = function(data, subtitle) {
       fill = as.factor(value)
     )
   ) + 
+    coord_equal(ratio = 1) + 
   geom_tile(color = "white") + 
   facet_grid(
     variable ~ month, 
@@ -140,31 +142,32 @@ melt_and_plot = function(data, subtitle) {
     space = "free", 
     labeller = as_labeller(variable_labels)
   ) +
-  coord_equal(ratio = 1) + 
   labs(
     y = "",
     x = "",
     title = "2020* in Booleans",
     subtitle = subtitle,
     fill = "Legend",
-    caption = "* Forgot to record data for a couple days in mid-November, and got too depressed to keep going for the rest of the year :("
+    caption = "* Forgot to record data for a couple days in mid-November, which made me too sad to continue."
   ) + 
   theme(
-    text = element_text(family = "mono"),
+    text = element_text(family = "mono", color = "white"),
     panel.grid.major = element_blank(), 
     panel.grid.minor = element_blank(), 
     axis.text.x = element_blank(), 
     axis.text.y = element_blank(), 
     axis.ticks = element_blank(),
     plot.title = element_text(size = 60, face = "bold"),
-    plot.subtitle = element_text(size = 30, margin = margin(t = 20, b = 40)),
-    plot.caption = element_text(size = 25, face = "bold", margin = margin(t = 40, b = 20)),
+    plot.subtitle = element_text(size = 40, margin = margin(t = 20, b = 40)),
+    plot.caption = element_text(size = 30, margin = margin(t = 40, b = 20), hjust = 0),
     strip.text.x = element_text(size = 25, face = "bold"),
     strip.text.y = element_text(size = 25, face = "bold"),
-    legend.title = element_text(size = 25, face = "bold"),
-    legend.text = element_text(size = 25),
-    legend.box.margin = margin(l = 40),
-    plot.margin = margin(t = 40, r = 40, b = 20, l = 40)
+    legend.title = element_text(size = 30, face = "bold"),
+    legend.text = element_text(size = 30),
+    legend.box.margin = margin(l = 60),
+    legend.background = element_rect(fill = "black"),
+    plot.margin = margin(t = 50, r = 110, b = 30, l = 110),
+    plot.background = element_rect(fill = "black")
   )
 }
 
