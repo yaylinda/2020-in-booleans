@@ -211,11 +211,11 @@ melt_and_plot(data.main, "Daily life attributes of a 26 year-old Asian female, l
 #------------------
 
 data.work = data.frame(
-  "date" = data$date, 
-  "month" = data$month, 
-  "day_of_week" = data$day_of_week, 
+  "date" = data$date,
+  "month" = data$month,
+  "day_of_week" = data$day_of_week,
   "monthweek" = data$monthweek,
-  
+
   "went.to.work" = data$went.to.work,
   "happy.about.work" = data$happy.about.work,
   "sad.about.work" = data$sad.about.work,
@@ -252,7 +252,7 @@ wake_up_melted$label = ifelse(
   "Wake-Up Time"
 )
 
-colors = c("green", "purple")
+colors = c("yellow", "purple")
 
 ggplot(
   wake_up_melted, 
@@ -264,7 +264,7 @@ ggplot(
   )
 ) + 
   geom_polygon(
-    alpha = 0.5
+    alpha = 0.8
   ) +
   scale_color_manual(
     values = colors
@@ -294,6 +294,7 @@ ggplot(
     text = element_text(family = "mono", color = "white"),
     plot.title = element_text(size = 70, color = "white", face = "bold"),
     plot.margin = margin(t = 60, b = 20, l = 45, r = 55),
+    panel.grid.major = element_line(color = "white"),
     axis.text.x = element_text(size = 40, color = "white", face = "bold"),
     axis.text.y = element_text(size = 40, color = "white", margin = margin(r = 20)),
     legend.position = "top",
