@@ -2,6 +2,8 @@ library(ggplot2)
 library(zoo)
 library(lubridate)
 library(reshape2)
+library(scales)
+library(ggthemes)
 
 setwd("~/Developer/2020-in-booleans")
 
@@ -223,14 +225,83 @@ data.work = data.frame(
 
 melt_and_plot(data.work, "Work")
 
+#==========================================================
+# Wake and get up time
+#==========================================================
 
+wake_up_data = data.frame(
+  "date" = as.POSIXct(data$date),
+  "wake_up_time" = strptime(data$wake.up.time, "%I:%M %p"),
+  "get_up_time" = strptime(data$get.up.time, "%I:%M %p")
+)
 
+wake_up_data$date = wake_up_data$date + 6 * 60 * 60
+wake_up_data$time_diff = difftime(wake_up_data$get_up_time, wake_up_data$wake_up_time)
+wake_up_data$wake_up_time[which(is.na(wake_up_data$wake_up_time))] = strptime("12:00 AM", "%I:%M %p")
+wake_up_data$get_up_time[which(is.na(wake_up_data$get_up_time))] = strptime("12:00 AM", "%I:%M %p")
 
+wake_up_melted = melt(
+  wake_up_data,
+  id.vars = c("date"), 
+  measure.vars = c("get_up_time", "wake_up_time")
+)
 
+wake_up_melted$label = ifelse(
+  wake_up_melted$variable == "get_up_time",
+  "Get-Up Time",
+  "Wake-Up Time"
+)
 
+colors = c("green", "purple")
 
-
-
+ggplot(
+  wake_up_melted, 
+  aes(
+    x = date,
+    y = value,
+    group = label,
+    fill = label
+  )
+) + 
+  geom_polygon(
+    alpha = 0.5
+  ) +
+  scale_color_manual(
+    values = colors
+  ) +
+  scale_fill_manual(
+    values = colors
+  ) +
+  coord_polar(
+  ) +
+  scale_x_datetime(
+    date_breaks = "1 month",
+    date_labels = "%b"
+  ) +
+  scale_y_datetime(
+    date_labels = "%I:%M %p"
+  ) +
+  labs(
+    y = "",
+    x = "",
+    title = "Wake-Up and Get-Up Times for (most of) 2020",
+    subtitle = "",
+    caption = "",
+    fill = ""
+  ) +
+  theme_solarized_2(light = FALSE) +
+  theme(
+    text = element_text(family = "mono", color = "white"),
+    plot.title = element_text(size = 70, color = "white", face = "bold"),
+    plot.margin = margin(t = 60, b = 20, l = 45, r = 55),
+    axis.text.x = element_text(size = 40, color = "white", face = "bold"),
+    axis.text.y = element_text(size = 40, color = "white", margin = margin(r = 20)),
+    legend.position = "top",
+    legend.text = element_text(size = 40, color = "white"),
+    legend.title = element_blank(),
+    legend.margin = margin(t = 30, b = 60),
+    legend.spacing.x = unit(2, 'cm')
+  )
 
 
 
