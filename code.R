@@ -92,7 +92,7 @@ variable_labels = c(
   `abandoned.by.sean` = "Abandoned",
   `upset.at.sean` = "Upset at Sean",
   `sean.drunk` = "Sean Drunk",
-  `worked.remotely` = "Worked\nRemotely",
+  `worked.remotely` = "WFH",
   `sad.about.work` = "Sad about Work",
   `social.with.my.friends..work` = "",
   `social.with.sean.s.friends` = "",
@@ -159,16 +159,17 @@ melt_and_plot = function(data, subtitle) {
     axis.text.x = element_blank(), 
     axis.text.y = element_blank(), 
     axis.ticks = element_blank(),
-    plot.title = element_text(size = 60, face = "bold"),
-    plot.subtitle = element_text(size = 40, margin = margin(t = 20, b = 40)),
-    plot.caption = element_text(size = 30, margin = margin(t = 40, b = 20), hjust = 0),
+    plot.title = element_text(size = 60, face = "bold", margin = margin(b = 40)),
+    # plot.subtitle = element_text(size = 40, margin = margin(t = 20, b = 40)),
+    plot.subtitle = element_blank(),
+    plot.caption = element_text(size = 30, margin = margin(t = 30, b = 20), hjust = 0),
     strip.text.x = element_text(size = 25, face = "bold"),
-    strip.text.y = element_text(size = 25, face = "bold"),
+    strip.text.y = element_text(size = 20, face = "bold"),
     legend.title = element_text(size = 30, face = "bold"),
     legend.text = element_text(size = 30),
-    legend.box.margin = margin(l = 60),
+    legend.box.margin = margin(l = 40),
     legend.background = element_rect(fill = "black"),
-    plot.margin = margin(t = 50, r = 110, b = 30, l = 110),
+    plot.margin = margin(t = 50, r = 80, b = 20, l = 80),
     plot.background = element_rect(fill = "black")
   )
 }
@@ -205,6 +206,35 @@ data.main = data.frame(
 )
 
 melt_and_plot(data.main, "Daily life attributes of a 26 year-old Asian female, living in the US")
+
+#------------------
+# SFW columns
+#------------------
+
+data.sfw = data.frame(
+  "date" = data$date,
+  "month" = data$month,
+  "day_of_week" = data$day_of_week,
+  "monthweek" = data$monthweek,
+  
+  "felt.enough.sleep" = data$felt.enough.sleep,
+  "shower" = data$shower,
+  "breakfast" = data$breakfast,
+  "lunch" = data$lunch,
+  "dinner" = data$dinner,
+  "caffeine" = data$caffeine,
+  "vitamins"= data$vitamins,
+  "chores" = data$chores,
+  "personal.coding" = data$personal.coding,
+  "went.to.work" = data$went.to.work,
+  "worked.remotely" = data$worked.remotely,
+  "happy" = data$happy,
+  "sad" = data$sad,
+  "cried" = data$cried,
+  "Journaled" = data$Journaled
+)
+
+melt_and_plot(data.sfw, "")
 
 #------------------
 # Work
